@@ -1,22 +1,25 @@
 import config
-from python_authorizer.authorization_app import AuthorizationApp
-from python_authorizer.authorizer import EmailAuthorizer
+from python_authorizer.authorizer import AuthorizerApp
 from python_authorizer.email.email_sender import SendGridEmailSender
+from python_authorizer.email.email_authorizer import EmailAuthorizer
 
 if __name__ == "__main__":
     email_sender = SendGridEmailSender(from_email=config.FROM_EMAIL)
     email_authorizer = EmailAuthorizer(email_sender)
-    auth = AuthorizationApp(email_authorizer)
+    auth = AuthorizerApp(email_authorizer)
 
     while True:
-        command = input("Command: ")
+        command = input("Enter command: ")
         if command == "create":
+            print(f"Authorizer created using {auth!s}")
             auth.create()
         elif command == "verify":
-            auth.verify()
+            result = auth.verify()
+            print(f"Authorizer verify result: {result}")
         elif command == "status":
-            print(auth.is_authorized())
+            print(f"Authorizer status: {auth.is_authorized()}")
         elif command == "quit":
+            print("Authorizer quited.")
             quit()
         else:
-            print("NA")
+            print("Authorizer command not supported.")
