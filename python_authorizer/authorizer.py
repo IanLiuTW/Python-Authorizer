@@ -1,4 +1,4 @@
-from python_authorizer.email_sender import EmailSender
+from python_authorizer.email.email_sender import EmailSender
 from dataclasses import dataclass, field
 from abc import ABC, abstractmethod
 import random
@@ -8,7 +8,6 @@ import string
 @dataclass
 class Authorizer(ABC):
     authorized: bool = field(default=False, init=False)
-    code: str = field(default=None, init=False)
 
     @abstractmethod
     def create(self):
@@ -26,6 +25,7 @@ class Authorizer(ABC):
 @dataclass
 class EmailAuthorizer(Authorizer):
     email_sender: EmailSender
+    code: str = None
 
     def create(self):
         self._generate_code()
