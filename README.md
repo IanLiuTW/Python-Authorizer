@@ -5,8 +5,10 @@
 2. Content of `config.py`
 
 ```python
+# For email authorizer
 FROM_EMAIL = "<from_email>"
-TO_EMAILS = "<to_emails>"
+
+# For SendGrid email authorizer
 SENDGRID_API_KEY = "<sendgrid_api_key>"
 ```
 

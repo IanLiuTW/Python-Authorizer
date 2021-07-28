@@ -8,7 +8,6 @@ from abc import ABC, abstractmethod
 @dataclass
 class EmailSender(ABC):
     from_email: str
-    to_emails: str
 
     @abstractmethod
     def send_mail():
@@ -20,16 +19,15 @@ class SendGridEmailSender(EmailSender):
     API_KEY = config.SENDGRID_API_KEY
 
     def send_mail(self, subject, html_content):
+        to_emails = input("To email: ")
+
         message = Mail(
             from_email=self.from_email,
-            to_emails=self.to_emails,
+            to_emails=to_emails,
             subject=subject,
             html_content=html_content)
         try:
             sg = SendGridAPIClient(self.API_KEY)
-            response = sg.send(message)
-            print(response.status_code)
-            print(response.body)
-            print(response.headers)
+            sg.send(message)
         except Exception as e:
             print(e.message)

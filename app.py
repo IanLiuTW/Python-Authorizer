@@ -1,23 +1,20 @@
 import config
-from python_email_auth.email_sender import SendGridEmailSender
-from python_email_auth.email_auth import EmailAuthor
-from python_email_auth.email_auth_app import EmailAuthApp
+from python_authorizer.email_sender import SendGridEmailSender
+from python_authorizer.authorizer import EmailAuthorizer
+from python_authorizer.authorization_app import AuthorizationApp
 
 if __name__ == "__main__":
-    email_sender = SendGridEmailSender(from_email=config.FROM_EMAIL,
-                                       to_emails=config.TO_EMAILS)
-    email_auth = EmailAuthor(email_sender)
-    auth = EmailAuthApp(email_auth)
+    email_sender = SendGridEmailSender(from_email=config.FROM_EMAIL)
+    email_authorizer = EmailAuthorizer(email_sender)
+    auth = AuthorizationApp(email_authorizer)
 
     while True:
-        command = input("Input: ")
+        command = input("Command: ")
         if command == "create":
-            auth.create_code()
-            print("code created and sent")
+            auth.create()
         elif command == "verify":
-            code = input("Code: ")
-            print(auth.verify_code(code))
-        elif command == "auth":
+            auth.verify()
+        elif command == "status":
             print(auth.is_authorized())
         else:
             print("NA")
